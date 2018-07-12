@@ -1,5 +1,13 @@
 RPI built from the [hypriot](https://blog.hypriot.com/downloads/) image.
 
+The `docker-compose.yml` includes the following stack:
+
+- [ombi](https://github.com/tidusjar/Ombi)
+- [sonarr](https://github.com/Sonarr/Sonarr)
+- [transmission / openvpn](https://github.com/haugene/docker-transmission-openvpn)
+- [samba](https://github.com/dperson/samba)
+- [jackett](https://github.com/Jackett/Jackett)
+
 
 ## Swap space
 
@@ -27,3 +35,7 @@ For a static ip, add to `/etc/network/interfaces`:
 	    address 192.168.1.222
 	    netmask 255.255.255.0
 	    gateway 192.168.1.1
+
+## Run
+
+    docker-compose up -d
