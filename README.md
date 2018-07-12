@@ -38,4 +38,6 @@ For a static ip, add to `/etc/network/interfaces`:
 
 ## Run
 
+First, copy `.env.template` to `.env` and update accordingly.
+
     docker-compose up -d
