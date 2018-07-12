@@ -33,20 +33,22 @@ services:
 
  sonarr:
   image: lsioarmhf/sonarr
+  restart: always
   ports:
     - "8989:8989"
   volumes:
-    - /config 
-    - /media/pi/blackhole/torrents:/downloads
-      #- /tmp/tv:/tv 
+    - /media/pi/blackhole/torrents/completed:/downloads
+    - /media/pi/blackhole/torrents/completed:/tv
+    - sonarr:/config 
 
  jackett:
   image: lsioarmhf/jackett
+  restart: always
   ports:
     - "9117:9117"
   volumes:
-    - /config 
-    - /media/pi/blackhole/torrents:/downloads
+    - /media/pi/blackhole/torrents/completed:/downloads
+    - jackett:/config 
 
  ombi:
   image: lsioarmhf/ombi
@@ -54,8 +56,8 @@ services:
   ports:
     - "3579:3579"
   volumes:
-    - /media/pi/blackhole/torrents:/downloads:ro
-    - /config 
+    - /media/pi/blackhole/torrents/completed:/downloads:ro
+    - ombi:/config 
 
  samba:
   image: flackdl/samba-armhf
@@ -68,4 +70,9 @@ services:
   command: -u "${SMB_USER};${SMB_PASS}" -s "torrents;/torrents" -g "min protocol = CORE"
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /media/pi/blackhole/torrents:/torrents:ro
+    - /media/pi/blackhole/torrents/completed:/torrents:ro
+
+volumes:
+  sonarr:
+  ombi:
+  jackett:
