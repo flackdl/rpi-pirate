@@ -1,30 +1,21 @@
-RPI built from the [hypriot](https://blog.hypriot.com/downloads/) image.
-
-The `docker-compose.yml` includes the following stack:
+RPI Docker Compose stack including the following:
 
 - [ombi](https://github.com/tidusjar/Ombi)
 - [sonarr](https://github.com/Sonarr/Sonarr)
 - [transmission / openvpn](https://github.com/haugene/docker-transmission-openvpn)
 - [samba](https://github.com/dperson/samba)
 - [jackett](https://github.com/Jackett/Jackett)
-
-
-## Swap space
-
-Create swap since it's disabled by default:
-
-	sudo dd if=/dev/zero of=/swapfile bs=1M count=1024
-	sudo mkswap /swapfile
-	sudo swapon /swapfile
 	
+I built the RPI images from [hypriot](https://blog.hypriot.com/downloads/).
+
+# Configuration
+
+## External Hard Drive
 
 Add to `/etc/fstab`:
 
 	# external hd
 	LABEL=blackhole /media/pi/blackhole   ext4    defaults          0       2
-
-	# swap
-	/swapfile    none    swap    sw    0   0
 
 ## Networking
 
@@ -40,4 +31,12 @@ For a static ip, add to `/etc/network/interfaces`:
 
 First, copy `.env.template` to `.env` and update accordingly.
 
+    # run via included script (includes time-outs)
+    ./up.sh
+
+    # run via straight up docker command
     docker-compose up -d
+
+## Caveats
+
+Ombi couldn't retrieve any "root folders" from Sonarr until I went into Sonarr, search for a series then defined a download path.
