@@ -24,6 +24,7 @@ services:
     - LOCAL_NETWORK=192.168.1.0/24
  proxy:
   image: flackdl/rpi-transmission-openvpn-proxy
+  restart: always
   links:
     - transmission
   ports:
