@@ -42,6 +42,16 @@ services:
     - /media/pi/blackhole/torrents/completed/:/tv
     - /media/pi/blackhole/torrents/sonarr:/config 
 
+ radarr:
+  image: lsioarmhf/radarr
+  restart: always
+  ports:
+    - "7878:7878"
+  volumes:
+    - /media/pi/blackhole/torrents/completed/:/downloads
+    - /media/pi/blackhole/torrents/completed/:/movies
+    - /media/pi/blackhole/torrents/radarr:/config 
+
  ombi:
   image: lsioarmhf/ombi
   restart: always

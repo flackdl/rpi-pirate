@@ -1,12 +1,13 @@
 RPI Docker Compose stack including the following:
 
+- [transmission / openvpn](https://github.com/haugene/docker-transmission-openvpn)
 - [ombi](https://github.com/tidusjar/Ombi)
 - [sonarr](https://github.com/Sonarr/Sonarr)
-- [transmission / openvpn](https://github.com/haugene/docker-transmission-openvpn)
-- [samba](https://github.com/dperson/samba)
+- [radarr](https://github.com/Radarr/Radarr)
 - [jackett](https://github.com/Jackett/Jackett)
+- [samba](https://github.com/dperson/samba)
 	
-I built the RPI images from [hypriot](https://blog.hypriot.com/downloads/).
+The base RPI image is best built from [hypriot](https://blog.hypriot.com/downloads/) since it's stripped down and supports Doker out of the box.
 
 # Configuration
 
@@ -39,4 +40,4 @@ First, copy `.env.template` to `.env` and update accordingly.
 
 ## Caveats
 
-Ombi couldn't retrieve any "root folders" from Sonarr until I went into Sonarr, search for a series then defined a download path.
+Ombi couldn't retrieve any "root folders" from Sonarr/Radarr until I went into each and searched for a series then defined a download path.
