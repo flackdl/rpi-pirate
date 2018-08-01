@@ -25,6 +25,8 @@ services:
  proxy:
   image: flackdl/rpi-transmission-openvpn-proxy
   restart: always
+  depends_on:
+    - transmission
   links:
     - transmission
   ports:
@@ -83,12 +85,3 @@ services:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - /media/pi/blackhole/torrents/:/torrents:ro
-
- pydio:
-  image: lsioarmhf/pydio
-  restart: always
-  ports:
-    - "443:443"
-  volumes:
-    - /media/pi/blackhole/torrents/pydio:/config 
-    - /media/pi/blackhole/torrents/completed:/torrents:ro

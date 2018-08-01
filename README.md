@@ -6,7 +6,6 @@ RPI Docker Compose stack including the following:
 - [radarr](https://github.com/Radarr/Radarr)
 - [jackett](https://github.com/Jackett/Jackett)
 - [samba](https://github.com/dperson/samba)
-- [pydio](https://hub.docker.com/r/lsioarmhf/pydio/)
 	
 The base RPI image is best built from [hypriot](https://blog.hypriot.com/downloads/) since it's stripped down and supports Docker out of the box.
 
