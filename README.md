@@ -6,6 +6,7 @@ RPI Docker Compose stack including the following:
 - [radarr](https://github.com/Radarr/Radarr)
 - [jackett](https://github.com/Jackett/Jackett)
 - [samba](https://github.com/dperson/samba)
+- [docker-autossh](https://github.com/flackdl/rpi-docker-autossh)
 	
 The base RPI image is best built from [hypriot](https://blog.hypriot.com/downloads/) since it's stripped down and supports Docker out of the box.
 
@@ -30,7 +31,7 @@ For a static ip, add to `/etc/network/interfaces`:
 
 ## Run
 
-First, copy `.env.template` to `.env` and update accordingly.
+First, copy `.env.template` to `.env` and update accordingly.  Also, you'll need the private ssh key in `id_rsa` for the autossh feature to work.
 
     # run via included script (includes time-outs)
     ./up.sh

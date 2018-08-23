@@ -34,33 +34,33 @@ services:
   volumes:
     - /etc/localtime:/etc/localtime:ro
 
- sonarr:
-  image: lsioarmhf/sonarr
-  restart: always
-  ports:
-    - "8989:8989"
-  volumes:
-    - /media/pi/blackhole/torrents/completed/:/downloads:ro
-    - /media/pi/blackhole/torrents/completed/:/tv:ro
-    - /media/pi/blackhole/torrents/sonarr:/config 
-
- radarr:
-  image: lsioarmhf/radarr
-  restart: always
-  ports:
-    - "7878:7878"
-  volumes:
-    - /media/pi/blackhole/torrents/completed/:/downloads:ro
-    - /media/pi/blackhole/torrents/completed/:/movies:ro
-    - /media/pi/blackhole/torrents/radarr:/config 
-
- ombi:
-  image: lsioarmhf/ombi
-  restart: always
-  ports:
-    - "3579:3579"
-  volumes:
-    - /media/pi/blackhole/torrents/ombi:/config 
+      # sonarr:
+      #  image: lsioarmhf/sonarr
+      #  restart: always
+      #  ports:
+      #    - "8989:8989"
+      #  volumes:
+      #    - /media/pi/blackhole/torrents/completed/:/downloads:ro
+      #    - /media/pi/blackhole/torrents/completed/:/tv:ro
+      #    - /media/pi/blackhole/torrents/sonarr:/config 
+      #
+      # radarr:
+      #  image: lsioarmhf/radarr
+      #  restart: always
+      #  ports:
+      #    - "7878:7878"
+      #  volumes:
+      #    - /media/pi/blackhole/torrents/completed/:/downloads:ro
+      #    - /media/pi/blackhole/torrents/completed/:/movies:ro
+      #    - /media/pi/blackhole/torrents/radarr:/config 
+      #
+      # ombi:
+      #  image: lsioarmhf/ombi
+      #  restart: always
+      #  ports:
+      #    - "3579:3579"
+      #  volumes:
+      #    - /media/pi/blackhole/torrents/ombi:/config 
 
  jackett:
   image: lsioarmhf/jackett
@@ -85,3 +85,14 @@ services:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - /media/pi/blackhole/torrents/:/torrents:ro
+
+ ssh-to-docker-host:
+   build: https://github.com/flackdl/rpi-docker-autossh.git
+   restart: always
+   env_file:
+    - .env
+   volumes:
+    - $PWD/id_rsa:/id_rsa
+   dns:
+    - 8.8.8.8
+    - 4.2.2.4
