@@ -1,9 +1,6 @@
 RPI Docker Compose stack including the following:
 
 - [transmission / openvpn](https://github.com/haugene/docker-transmission-openvpn)
-- [ombi](https://github.com/tidusjar/Ombi)
-- [sonarr](https://github.com/Sonarr/Sonarr)
-- [radarr](https://github.com/Radarr/Radarr)
 - [jackett](https://github.com/Jackett/Jackett)
 - [samba](https://github.com/dperson/samba)
 - [docker-autossh](https://github.com/flackdl/rpi-docker-autossh)
@@ -38,7 +35,3 @@ First, copy `.env.template` to `.env` and update accordingly.  Also, you'll need
 
     # run via straight up docker command
     docker-compose up -d
-
-## Caveats
-
-Ombi couldn't retrieve any "root folders" from Sonarr/Radarr until I went into each and searched for a series then defined a download path.
