@@ -33,6 +33,12 @@ services:
     - "8080:8080"
   volumes:
     - /etc/localtime:/etc/localtime:ro
+  env_file:
+    - .env
+  # routinely update dynamic dns (since this image has curl already installed)
+  labels:
+    deck-chores.dyn-dns.command: curl -s "$DNS_UPDATE_URL"
+    deck-chores.dyn-dns.interval: 2:00:00
 
  jackett:
   image: lsioarmhf/jackett
@@ -40,7 +46,6 @@ services:
   ports:
     - "9117:9117"
   volumes:
-    - ${TORRENTS_WATCH_DIR}:/downloads
     - ${TORRENTS_DIR}/jackett:/config 
 
  samba:
@@ -68,3 +73,9 @@ services:
    dns:
     - 8.8.8.8
     - 4.2.2.4
+
+ deck-chores:
+   image: funkyfuture/deck-chores:0.3-armv7l
+   restart: unless-stopped
+   volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
