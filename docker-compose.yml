@@ -22,6 +22,7 @@ services:
   environment:
     - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
     - LOCAL_NETWORK=192.168.1.0/24
+
  proxy:
   image: flackdl/rpi-transmission-openvpn-proxy
   restart: always
@@ -35,10 +36,6 @@ services:
     - /etc/localtime:/etc/localtime:ro
   env_file:
     - .env
-  # routinely update dynamic dns (since this image has curl already installed)
-  labels:
-    deck-chores.dyn-dns.command: curl -s "$DNS_UPDATE_URL"
-    deck-chores.dyn-dns.interval: 2:00:00
 
  jackett:
   image: lsioarmhf/jackett
@@ -62,6 +59,10 @@ services:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${TORRENTS_DIR}:/torrents:ro
+  # routinely update dynamic dns (since this image has curl already installed)
+  labels:
+    deck-chores.dyn-dns.command: curl -s "$DNS_UPDATE_URL"
+    deck-chores.dyn-dns.interval: "2:00:00"
 
  ssh-to-docker-host:
    build: https://github.com/flackdl/rpi-docker-autossh.git
