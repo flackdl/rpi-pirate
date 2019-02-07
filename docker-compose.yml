@@ -79,3 +79,6 @@ services:
    restart: unless-stopped
    volumes:
      - /var/run/docker.sock:/var/run/docker.sock
+   logging:
+     options:
+       max-size: 10m       
