@@ -20,6 +20,8 @@ services:
   env_file:
     - .env
   environment:
+    - PUID=1000
+    - PGID=1000
     - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
     - LOCAL_NETWORK=192.168.1.0/24
 
