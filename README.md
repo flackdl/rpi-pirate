@@ -1,6 +1,7 @@
 RPI Docker Compose stack including the following:
 
 - [transmission / openvpn](https://github.com/haugene/docker-transmission-openvpn)
+- [nefarious](https://github.com/lardbit/nefarious)
 - [jackett](https://github.com/Jackett/Jackett)
 - [samba](https://github.com/dperson/samba)
 - [docker-autossh](https://github.com/flackdl/rpi-docker-autossh)

@@ -77,6 +77,54 @@ services:
     - 8.8.8.8
     - 4.2.2.4
 
+ nefarious:
+  labels:
+  - com.centurylinklabs.watchtower.enable=true
+  image: lardbit/nefarious:armv7
+  restart: always
+  ports:
+  - "8000:80"
+  environment:
+    # https://github.com/kennethreitz/dj-database-url
+    DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
+    REDIS_HOST: "redis"
+  volumes:
+  # persistent named volume for sqlite database
+  - nefarious-db:/nefarious-db
+  depends_on:
+  - redis
+  - jackett
+  - celery
+
+ celery:
+   labels:
+     - com.centurylinklabs.watchtower.enable=true
+   image: lardbit/nefarious:armv7
+   restart: always
+   entrypoint: /env/bin/celery -A nefarious worker --beat --loglevel=INFO
+   environment:
+     # https://github.com/kennethreitz/dj-database-url
+     DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
+     REDIS_HOST: "redis"
+   volumes:
+   # persistent named volume for sqlite database
+   - nefarious-db:/nefarious-db
+   depends_on:
+     - redis
+
+ redis:
+   image: arm32v7/redis
+
+ # auto update service
+ # https://github.com/v2tec/watchtower
+ watchtower:
+   image: v2tec/watchtower:armhf-latest
+   restart: always
+   command: --label-enable --cleanup
+   volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+
+
  deck-chores:
    image: funkyfuture/deck-chores:0.3-armv7l
    restart: unless-stopped
