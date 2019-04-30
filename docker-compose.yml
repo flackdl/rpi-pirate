@@ -115,6 +115,8 @@ services:
 
  redis:
    image: arm32v7/redis
+   restart: always
+
 
  # auto update service
  # https://github.com/v2tec/watchtower
