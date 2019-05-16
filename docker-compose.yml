@@ -46,7 +46,7 @@ services:
   ports:
     - "9117:9117"
   volumes:
-    - ${TORRENTS_DIR}/jackett:/config 
+    - jackett-config:/config 
 
  samba:
   image: flackdl/samba-armhf
@@ -136,3 +136,8 @@ services:
    logging:
      options:
        max-size: 10m       
+
+volumes:
+  nefarious-db:
+  jackett-config:
+
