@@ -40,7 +40,7 @@ services:
     - .env
 
  jackett:
-  image: lsioarmhf/jackett
+  image: linuxserver/jackett:arm32v7-latest
   restart: always
   mem_limit: 200m
   ports:
