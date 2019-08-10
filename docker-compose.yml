@@ -2,7 +2,7 @@ version: '2'
 
 services:
  transmission:
-  image: flackdl/rpi-transmission-openvpn
+  image: haugene/transmission-openvpn:latest-armhf
   cap_add:
     - NET_ADMIN
   devices:
@@ -49,7 +49,7 @@ services:
     - jackett-config:/config 
 
  samba:
-  image: flackdl/samba-armhf
+  image: dperson/samba:armhf
   restart: always
   ports:
     - "137:137/udp"
@@ -58,9 +58,12 @@ services:
     - "445:445"
   env_file:
     - .env
-  command: -n -u "${SMB_USER};${SMB_PASS}" -s "torrents;/torrents" -g "min protocol = CORE" -g "netbios name = rpi" -g "workgroup = blackhole"
+  environment:
+    - USERID=1000
+    - GROUPID=1000
+  command: -n -s "torrents;/torrents;yes;no;yes" -g "min protocol = CORE" -g "netbios name = rpi" -g "workgroup = blackhole"
   volumes:
-    - /etc/localtime:/etc/localtime:ro
+    - /etc/localtime:/etc/localtime
     - ${TORRENTS_DIR}:/torrents:ro
   # routinely update dynamic dns (since this image has curl already installed)
   labels:
