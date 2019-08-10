@@ -133,7 +133,7 @@ services:
 
  deck-chores:
    image: funkyfuture/deck-chores:0.3-armv7l
-   restart: unless-stopped
+   restart: always
    volumes:
      - /var/run/docker.sock:/var/run/docker.sock
    logging:
