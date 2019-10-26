@@ -83,7 +83,11 @@ services:
 
  nefarious:
   labels:
-  - com.centurylinklabs.watchtower.enable=true
+    # routinely update dynamic dns (since this image has curl already installed)
+    deck-chores.dyn-dns.command: curl -s "$DNS_UPDATE_URL"
+    deck-chores.dyn-dns.interval: "02:00:00"
+    # auto update
+    com.centurylinklabs.watchtower.enable: true
   image: lardbit/nefarious:armv7
   restart: always
   ports:
@@ -102,6 +106,7 @@ services:
 
  celery:
    labels:
+     # auto update
      - com.centurylinklabs.watchtower.enable=true
    image: lardbit/nefarious:armv7
    restart: always
