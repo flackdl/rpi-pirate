@@ -1,151 +1,162 @@
 version: '2'
 
 services:
- transmission:
-  image: haugene/transmission-openvpn:latest-armhf
-  cap_add:
-    - NET_ADMIN
-  devices:
-    - "/dev/net/tun"
-  restart: always
-  ports:
-    - "9091:9091"
-    - "8888:8888"
-  dns:
-    - 8.8.8.8
-    - 8.8.4.4
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ${TORRENTS_DIR}:/data
-  env_file:
-    - .env
-  environment:
-    - PUID=1000
-    - PGID=1000
-    - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
-    - LOCAL_NETWORK=192.168.1.0/24
+  transmission:
+    image: haugene/transmission-openvpn:latest-armhf
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun"
+    restart: always
+    ports:
+      - "9091:9091"
+      - "8888:8888"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${TORRENTS_DIR}:/data
+    env_file:
+      - .env
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+      - LOCAL_NETWORK=192.168.1.0/24
+    logging:
+      options:
+        max-size: 10m
 
- proxy:
-  image: haugene/transmission-openvpn-proxy:latest-armhf
-  restart: always
-  depends_on:
-    - transmission
-  links:
-    - transmission
-  ports:
-    - "8080:8080"
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-  env_file:
-    - .env
+  proxy:
+    image: haugene/transmission-openvpn-proxy:latest-armhf
+    restart: always
+    depends_on:
+      - transmission
+    links:
+      - transmission
+    ports:
+      - "8080:8080"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
 
- jackett:
-  image: linuxserver/jackett:arm32v7-latest
-  restart: always
-  mem_limit: 200m
-  ports:
-    - "9117:9117"
-  volumes:
-    - jackett-config:/config 
+  jackett:
+    image: linuxserver/jackett:arm32v7-latest
+    restart: always
+    mem_limit: 200m
+    ports:
+      - "9117:9117"
+    volumes:
+      - jackett-config:/config
+    logging:
+      options:
+        max-size: 10m
 
- samba:
-  image: dperson/samba:armhf
-  restart: always
-  ports:
-    - "137:137/udp"
-    - "138:138/udp"
-    - "139:139"
-    - "445:445"
-  env_file:
-    - .env
-  environment:
-    - USERID=1000
-    - GROUPID=1000
-  command: -n -s "torrents;/torrents;yes;no;yes" -g "min protocol = CORE" -g "netbios name = rpi" -g "workgroup = blackhole"
-  volumes:
-    - /etc/localtime:/etc/localtime
-    - ${TORRENTS_DIR}:/torrents:ro
-  # routinely update dynamic dns (since this image has curl already installed)
-  labels:
-    deck-chores.dyn-dns.command: curl -s "$DNS_UPDATE_URL"
-    deck-chores.dyn-dns.interval: "02:00:00"
-
- ssh-to-docker-host:
-   build: https://github.com/flackdl/rpi-docker-autossh.git
-   restart: always
-   env_file:
-    - .env
-   volumes:
-    - $PWD/id_rsa:/id_rsa
-   dns:
-    - 8.8.8.8
-    - 4.2.2.4
-
- nefarious:
-  labels:
+  samba:
+    image: dperson/samba:armhf
+    restart: always
+    ports:
+      - "137:137/udp"
+      - "138:138/udp"
+      - "139:139"
+      - "445:445"
+    env_file:
+      - .env
+    environment:
+      - USERID=1000
+      - GROUPID=1000
+    command: -n -s "torrents;/torrents;yes;no;yes" -g "min protocol = CORE" -g "netbios name = rpi" -g "workgroup = blackhole"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ${TORRENTS_DIR}:/torrents:ro
     # routinely update dynamic dns (since this image has curl already installed)
-    deck-chores.dyn-dns.command: curl -s "$DNS_UPDATE_URL"
-    deck-chores.dyn-dns.interval: "02:00:00"
-    # auto update
-    com.centurylinklabs.watchtower.enable: true
-  image: lardbit/nefarious:armv7
-  restart: always
-  ports:
-  - "8000:80"
-  environment:
-    # https://github.com/kennethreitz/dj-database-url
-    DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
-    REDIS_HOST: "redis"
-  volumes:
-  # persistent named volume for sqlite database
-  - nefarious-db:/nefarious-db
-  depends_on:
-  - redis
-  - jackett
-  - celery
+    labels:
+      deck-chores.dyn-dns.command: curl -s "$DNS_UPDATE_URL"
+      deck-chores.dyn-dns.interval: "02:00:00"
 
- celery:
-   labels:
-     # auto update
-     - com.centurylinklabs.watchtower.enable=true
-   image: lardbit/nefarious:armv7
-   restart: always
-   entrypoint: /env/bin/celery -A nefarious worker --beat --loglevel=INFO
-   environment:
-     # https://github.com/kennethreitz/dj-database-url
-     DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
-     REDIS_HOST: "redis"
-   volumes:
-   # persistent named volume for sqlite database
-   - nefarious-db:/nefarious-db
-   depends_on:
-     - redis
+  ssh-to-docker-host:
+    build: https://github.com/flackdl/rpi-docker-autossh.git
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - $PWD/id_rsa:/id_rsa
+    dns:
+      - 8.8.8.8
+      - 4.2.2.4
 
- redis:
-   image: arm32v7/redis
-   restart: always
+  nefarious:
+    labels:
+      # routinely update dynamic dns (since this image has curl already installed)
+      deck-chores.dyn-dns.command: curl -s "$DNS_UPDATE_URL"
+      deck-chores.dyn-dns.interval: "02:00:00"
+      # auto update
+      com.centurylinklabs.watchtower.enable: true
+    image: lardbit/nefarious:armv7
+    restart: always
+    ports:
+      - "8000:80"
+    environment:
+      # https://github.com/kennethreitz/dj-database-url
+      DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
+      REDIS_HOST: "redis"
+    volumes:
+      # persistent named volume for sqlite database
+      - nefarious-db:/nefarious-db
+    depends_on:
+      - redis
+      - jackett
+      - celery
+    logging:
+      options:
+        max-size: 10m
+
+  celery:
+    labels:
+      # auto update
+      - com.centurylinklabs.watchtower.enable=true
+    image: lardbit/nefarious:armv7
+    restart: always
+    entrypoint: /env/bin/celery -A nefarious worker --beat --loglevel=INFO
+    environment:
+      # https://github.com/kennethreitz/dj-database-url
+      DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
+      REDIS_HOST: "redis"
+    volumes:
+      # persistent named volume for sqlite database
+      - nefarious-db:/nefarious-db
+    depends_on:
+      - redis
+    logging:
+      options:
+        max-size: 10m
+
+  redis:
+    image: arm32v7/redis
+    restart: always
 
 
- # auto update service
- # https://github.com/v2tec/watchtower
- watchtower:
-   image: v2tec/watchtower:armhf-latest
-   restart: always
-   command: --label-enable --cleanup
-   volumes:
-     - /var/run/docker.sock:/var/run/docker.sock
+  # auto update service
+  # https://github.com/v2tec/watchtower
+  watchtower:
+    image: v2tec/watchtower:armhf-latest
+    restart: always
+    command: --label-enable --cleanup
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 
- deck-chores:
-   image: funkyfuture/deck-chores:0.3-armv7l
-   restart: always
-   volumes:
-     - /var/run/docker.sock:/var/run/docker.sock
-   logging:
-     options:
-       max-size: 10m       
+  deck-chores:
+    image: funkyfuture/deck-chores:0.3-armv7l
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    logging:
+      options:
+        max-size: 10m
 
 volumes:
   nefarious-db:
   jackett-config:
-
