@@ -26,7 +26,7 @@ services:
       - LOCAL_NETWORK=192.168.1.0/24
     logging:
       options:
-        max-size: 10m
+        max-size: 1m
 
   proxy:
     image: haugene/transmission-openvpn-proxy:latest-armhf
@@ -39,6 +39,9 @@ services:
       - "8080:8080"
     volumes:
       - /etc/localtime:/etc/localtime:ro
+    logging:
+      options:
+        max-size: 1m
     env_file:
       - .env
 
@@ -71,21 +74,13 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime
       - ${TORRENTS_DIR}:/torrents:ro
+    logging:
+      options:
+        max-size: 1m
     # routinely update dynamic dns (since this image has curl already installed)
     labels:
       deck-chores.dyn-dns.command: curl -s "$DNS_UPDATE_URL"
       deck-chores.dyn-dns.interval: "02:00:00"
-
-  ssh-to-docker-host:
-    build: https://github.com/flackdl/rpi-docker-autossh.git
-    restart: always
-    env_file:
-      - .env
-    volumes:
-      - $PWD/id_rsa:/id_rsa
-    dns:
-      - 8.8.8.8
-      - 4.2.2.4
 
   nefarious:
     labels:
