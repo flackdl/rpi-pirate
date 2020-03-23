@@ -21,6 +21,10 @@ Add something like this to `/etc/fstab`:
 	# external hd
 	LABEL=blackhole /media/pi/blackhole   ext4    defaults          0       2
 
+## fail2ban
+
+    sudo apt-update && apt-get install -y fail2ban
+
 ## Run
 
 First, copy `.env.template` to `.env` and update accordingly.
@@ -28,6 +32,7 @@ First, copy `.env.template` to `.env` and update accordingly.
     docker-compose up -d
 
 ## Autossh
+
 If setting up a reverse ssh tunnel:
 
     sudo apt-get update && sudo apt-get install -y autossh
