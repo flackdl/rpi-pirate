@@ -152,7 +152,7 @@ services:
         max-size: 10m
 
   plex:
-    image: linuxserver/plex:arm32v7-latest
+    image: linuxserver/plex
     network_mode: host
     restart: unless-stopped
     volumes:
