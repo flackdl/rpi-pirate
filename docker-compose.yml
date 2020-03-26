@@ -80,10 +80,6 @@ services:
     logging:
       options:
         max-size: 1m
-    # routinely update dynamic dns (since this image has curl already installed)
-    labels:
-      deck-chores.dyn-dns.command: curl -s "$DNS_UPDATE_URL"
-      deck-chores.dyn-dns.interval: "02:00:00"
 
   nefarious:
     labels:
@@ -147,7 +143,7 @@ services:
 
 
   deck-chores:
-    image: funkyfuture/deck-chores:0.3-armv7l
+    image: funkyfuture/deck-chores:1.0
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
