@@ -4,6 +4,7 @@ RPI Docker Compose stack including the following:
 - [nefarious](https://github.com/lardbit/nefarious)
 - [jackett](https://github.com/Jackett/Jackett)
 - [samba](https://github.com/dperson/samba)
+- [plex](https://docs.linuxserver.io/images/docker-plex)
 	
 The base RPI image is best built from [hypriot](https://blog.hypriot.com/downloads/) since it's stripped down and supports Docker out of the box.
 Download their [flash](https://github.com/hypriot/flash) tool to write the image.  Include user-data to configure things like a static ip address. [static-config](https://github.com/hypriot/flash/blob/master/sample/static.yml) example.

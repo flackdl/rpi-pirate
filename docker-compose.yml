@@ -151,6 +151,23 @@ services:
       options:
         max-size: 10m
 
+  plex:
+    image: linuxserver/plex:arm32v7-latest
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - plex-config:/config
+      - ${TORRENTS_DIR}:/data
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+    logging:
+      options:
+        max-size: 10m
+        
+
 volumes:
   nefarious-db:
   jackett-config:
+  plex-config:
