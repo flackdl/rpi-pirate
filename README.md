@@ -5,6 +5,7 @@ RPI Docker Compose stack including the following:
 - [jackett](https://github.com/Jackett/Jackett)
 - [samba](https://github.com/dperson/samba)
 - [plex](https://docs.linuxserver.io/images/docker-plex)
+- [pihole](https://github.com/pi-hole/pi-hole)
 	
 The base RPI image is best built from [hypriot](https://blog.hypriot.com/downloads/) since it's stripped down and supports Docker out of the box.
 Download their [flash](https://github.com/hypriot/flash) tool to write the image.  Include user-data to configure things like a static ip address. [static-config](https://github.com/hypriot/flash/blob/master/sample/static.yml) example.
@@ -66,3 +67,10 @@ Start & enable the service:
 
     sudo systemctl start autossh
     sudo systemctl enable autossh
+
+## Pihole
+
+It's necessary to disable the existing dns server to run pihole:
+
+    sudo systemctl stop systemd-resolved
+    sudo systemctl disable systemd-resolved
