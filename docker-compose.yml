@@ -130,6 +130,7 @@ services:
   redis:
     image: arm32v7/redis
     restart: always
+    mem_limit: 200m
 
 
   # auto update service
