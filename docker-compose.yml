@@ -2,7 +2,7 @@ version: '2.4'
 
 services:
   transmission:
-    image: haugene/transmission-openvpn:latest-armhf
+    image: haugene/transmission-openvpn
     cap_add:
       - NET_ADMIN
     devices:
@@ -29,7 +29,7 @@ services:
         max-size: 1m
 
   proxy:
-    image: haugene/transmission-openvpn-proxy:latest-armhf
+    image: haugene/transmission-openvpn-proxy
     restart: always
     depends_on:
       - transmission
