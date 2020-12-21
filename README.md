@@ -21,7 +21,7 @@ Something like:
 Add something like this to `/etc/fstab`:
 
 	# external hd
-	LABEL=blackhole /media/pi/blackhole   ext4    defaults          0       2
+	LABEL=blackhole /media/pi/blackhole   ext4    nofail,x-systemd.device-timeout=1ms          0       2
 
 ## fail2ban
 
@@ -54,7 +54,7 @@ Create the following systemd service in `/etc/systemd/system/autossh.service`:
     Type=simple
     User=pi
     Restart=always
-    ExecStart=autossh -N -M 10984 -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -i /home/pi/rpi-pirate/id_rsa -R 2230:localhost:22 autossh@XXX.XXX.com
+    ExecStart=autossh -N -M 10984  -o "StrictHostKeyChecking=no" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -i /home/pi/rpi-pirate/id_rsa -R 2230:localhost:22 autossh@XXX.XXX.com
     RestartSec=3
     StartLimitBurst=5
     StartLimitIntervalSec=0
