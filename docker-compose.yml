@@ -141,10 +141,12 @@ services:
     command: --label-enable --cleanup
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=3600
 
 
   deck-chores:
-    image: funkyfuture/deck-chores:1.0
+    image: funkyfuture/deck-chores:1
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -156,6 +158,9 @@ services:
     image: linuxserver/plex
     network_mode: host
     restart: unless-stopped
+    labels:
+      # auto update
+      com.centurylinklabs.watchtower.enable: true
     volumes:
       - plex-config:/config
       - ${TORRENTS_DIR}:/data
