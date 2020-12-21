@@ -16,7 +16,7 @@ services:
       - 8.8.4.4
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${TORRENTS_DIR}:/data
+      - ${HOST_DOWNLOAD_PATH}:/data
     env_file:
       - .env
     environment:
@@ -76,7 +76,7 @@ services:
     command: -n -s "torrents;/torrents;yes;no;yes" -g "min protocol = CORE" -g "netbios name = rpi" -g "workgroup = blackhole"
     volumes:
       - /etc/localtime:/etc/localtime
-      - ${TORRENTS_DIR}:/torrents:ro
+      - ${HOST_DOWNLOAD_PATH}:/torrents:ro
     logging:
       options:
         max-size: 1m
@@ -96,6 +96,7 @@ services:
       # https://github.com/kennethreitz/dj-database-url
       DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
       REDIS_HOST: "redis"
+      HOST_DOWNLOAD_PATH: ${HOST_DOWNLOAD_PATH:-/tmp}
     volumes:
       # persistent named volume for sqlite database
       - nefarious-db:/nefarious-db
@@ -118,6 +119,7 @@ services:
       # https://github.com/kennethreitz/dj-database-url
       DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
       REDIS_HOST: "redis"
+      HOST_DOWNLOAD_PATH: ${HOST_DOWNLOAD_PATH:-/tmp}
     volumes:
       # persistent named volume for sqlite database
       - nefarious-db:/nefarious-db
@@ -163,7 +165,7 @@ services:
       com.centurylinklabs.watchtower.enable: true
     volumes:
       - plex-config:/config
-      - ${TORRENTS_DIR}:/data
+      - ${HOST_DOWNLOAD_PATH}:/data
     environment:
       - PUID=1000
       - PGID=1000
