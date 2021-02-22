@@ -46,7 +46,7 @@ services:
       - .env
 
   jackett:
-    image: linuxserver/jackett:arm32v7-latest
+    image: linuxserver/jackett
     restart: always
     mem_limit: 200m
     labels:
@@ -88,7 +88,7 @@ services:
       deck-chores.dyn-dns.interval: "02:00:00"
       # auto update
       com.centurylinklabs.watchtower.enable: true
-    image: lardbit/nefarious:armv7
+    image: lardbit/nefarious
     restart: always
     ports:
       - "8000:80"
@@ -112,7 +112,7 @@ services:
     labels:
       # auto update
       - com.centurylinklabs.watchtower.enable=true
-    image: lardbit/nefarious:armv7
+    image: lardbit/nefarious
     restart: always
     entrypoint: /env/bin/celery -A nefarious worker --concurrency ${NUM_CELERY_WORKERS:-0} --beat --loglevel=INFO
     environment:
@@ -130,7 +130,7 @@ services:
         max-size: 10m
 
   redis:
-    image: arm32v7/redis
+    image: redis
     restart: always
     mem_limit: 200m
 
@@ -138,7 +138,7 @@ services:
   # auto update service
   # https://github.com/v2tec/watchtower
   watchtower:
-    image: v2tec/watchtower:armhf-latest
+    image: containrrr/watchtower
     restart: always
     command: --label-enable --cleanup
     volumes:
