@@ -189,8 +189,8 @@ services:
       WEBPASSWORD: ${PIHOLE_PASSWORD}
     # Volumes store your data between container upgrades
     volumes:
-       - pihole-etc:/etc/pihole/'
-       - pihole-dnsmasq:/etc/dnsmasq.d/'
+       - pihole-etc:/etc/pihole/
+       - pihole-dnsmasq:/etc/dnsmasq.d/
     dns:
       - 127.0.0.1
       - 1.1.1.1

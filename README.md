@@ -54,7 +54,7 @@ Create the following systemd service in `/etc/systemd/system/autossh.service`:
     Type=simple
     User=pi
     Restart=always
-    ExecStart=autossh -N -M 10984  -o "StrictHostKeyChecking=no" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -i /home/pi/rpi-pirate/id_rsa -R 2230:localhost:22 autossh@XXX.XXX.com
+    ExecStart=/usr/bin/autossh -N -M 10984  -o "StrictHostKeyChecking=no" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -i /home/pi/rpi-pirate/id_rsa -R 2230:localhost:22 autossh@XXX.XXX.com
     RestartSec=3
     StartLimitBurst=5
     StartLimitIntervalSec=0
