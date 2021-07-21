@@ -15,7 +15,7 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     groups: users,docker,video
-    plain_text_passwd: cookie123
+    plain_text_passwd: all0utwar
     lock_passwd: false
     ssh_pwauth: true
     chpasswd: { expire: false }
@@ -31,7 +31,7 @@ write_files:
 
       # static IP configuration:
       interface eth0
-      static ip_address=192.168.1.111/24
+      static ip_address=192.168.1.222/24
       # static ip6_address=fd51:42f8:caae:d92e::ff/64
       static routers=192.168.1.1
       static domain_name_servers=192.168.1.1 8.8.8.8

@@ -12,7 +12,7 @@ Download their [flash](https://github.com/hypriot/flash) tool to write the image
 
 Something like:
  
-    flash --userdata static.yml https://github.com/hypriot/image-builder-rpi/releases/download/v1.12.0/hypriotos-rpi-v1.12.0.img.zip
+    flash --userdata static.yml https://github.com/hypriot/image-builder-rpi/releases/download/v1.12.3/hypriotos-rpi-v1.12.3.img.zip
 
 # Further Configuration
 
