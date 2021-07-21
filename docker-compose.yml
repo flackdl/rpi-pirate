@@ -97,6 +97,8 @@ services:
       DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
       REDIS_HOST: "redis"
       HOST_DOWNLOAD_PATH: ${HOST_DOWNLOAD_PATH:-/tmp}
+      NEFARIOUS_USER: ${NEFARIOUS_USER:-admin}
+      NEFARIOUS_PASS: ${NEFARIOUS_PASS:-admin}
     volumes:
       # persistent named volume for sqlite database
       - nefarious-db:/nefarious-db
@@ -121,6 +123,7 @@ services:
       REDIS_HOST: "redis"
       HOST_DOWNLOAD_PATH: ${HOST_DOWNLOAD_PATH:-/tmp}
       NUM_CELERY_WORKERS: ${NUM_CELERY_WORKERS:-1}
+      INTERNAL_DOWNLOAD_PATH: /downloads
     volumes:
       # persistent named volume for sqlite database
       - nefarious-db:/nefarious-db
