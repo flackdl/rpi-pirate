@@ -8,11 +8,11 @@ RPI Docker Compose stack including the following:
 - [pihole](https://github.com/pi-hole/pi-hole)
 	
 The base RPI image is best built from [hypriot](https://blog.hypriot.com/downloads/) since it's stripped down and supports Docker out of the box.
-Download their [flash](https://github.com/hypriot/flash) tool to write the image.  Include user-data to configure things like a static ip address. [static-config](https://github.com/hypriot/flash/blob/master/sample/static.yml) example.
+Download their [flash](https://github.com/hypriot/flash) tool to write the image.  Include *user-data* and a *network-config* to configure things like users and a static ip address.
 
 Something like:
  
-    flash --userdata static.yml https://github.com/hypriot/image-builder-rpi/releases/download/v1.12.3/hypriotos-rpi-v1.12.3.img.zip
+    flash --userdata user-data.yml --file network-config https://github.com/hypriot/image-builder-rpi/releases/download/v1.12.3/hypriotos-rpi-v1.12.3.img.zip
 
 # Further Configuration
 
