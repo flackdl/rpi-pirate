@@ -127,6 +127,8 @@ services:
     volumes:
       # persistent named volume for sqlite database
       - nefarious-db:/nefarious-db
+      - ${HOST_DOWNLOAD_PATH}:/downloads
+
     depends_on:
       - redis
     logging:
