@@ -37,13 +37,13 @@ First, copy `.env.template` to `.env` and update accordingly.
 
 If setting up a reverse ssh tunnel:
 
-    sudo apt-get update && sudo apt-get install -y autossh
+    sudo apt update && sudo apt install -y autossh
 
 Copy your private ssh key `id_rsa` to `/home/pi/rpi-pirate`.
 
 Create the following systemd service in `/etc/systemd/system/autossh.service`:
 
-**NOTE: update the domain**
+**NOTE: update the domain and port**.
 
     [Unit]
     Description=Autossh rpi
