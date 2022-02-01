@@ -16,6 +16,16 @@ Something like:
 
 # Further Configuration
 
+## Secomp
+
+Implement the [fix for an issue regarding libseccomp2](https://docs.linuxserver.io/faq#libseccomp):
+
+	wget http://ftp.us.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.5.3-2_armhf.deb
+	sudo dpkg -i libseccomp2_2.5.3-2_armhf.deb	
+
+**Then restart containers.**
+
+
 ## External Hard Drive
 
 Add something like this to `/etc/fstab`:
