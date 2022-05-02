@@ -20,8 +20,10 @@ Something like:
 
 Implement the [fix for an issue regarding libseccomp2](https://docs.linuxserver.io/faq#libseccomp):
 
-	wget http://ftp.us.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.5.3-2_armhf.deb
-	sudo dpkg -i libseccomp2_2.5.3-2_armhf.deb	
+You may need [alternate versions](http://ftp.us.debian.org/debian/pool/main/libs/libseccomp/).
+
+	wget http://ftp.us.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.5.4-1_armhf.deb
+	sudo dpkg -i libseccomp2_2.5.4-1_armhf.deb
 
 **Then restart containers.**
 
