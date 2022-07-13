@@ -1,26 +1,68 @@
 #cloud-config
 
-# Set your hostname here, the manage_etc_hosts will update the hosts file entries as well
 hostname: rpi
 manage_etc_hosts: true
-# don't write debian.org into apt mirrors
-apt_preserve_sources_list: true
+# allow password authentication
+ssh_pwauth: true
 
-# You could modify this for your own user information
 users:
   - name: pi
-    gecos: "Hypriot Pirate"
+    gecos: "rpi"
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     groups: users,docker,video
-    plain_text_passwd: hypriot
+    # TODO - REPLACE
+    plain_text_passwd: cookie123
     lock_passwd: false
-    ssh_pwauth: true
-    chpasswd: { expire: false }
+    chpasswd:
+      expire: false
 
-package_upgrade: false
+#package_update: true
+#package_upgrade: true
+packages:
+ - docker.io
+ - docker-compose
+ - fail2ban
+ - autossh
 
-# These commands will be ran once on first boot only
+write_files:
+
+- path: /etc/systemd/system/autossh.service
+  # TODO - REPLACE PORT AND DOMAIN
+  content: |
+    [Unit]
+    Description=Autossh rpi
+    After=network.target
+    [Service]
+    Type=simple
+    User=pi
+    Restart=always
+    ExecStart=/usr/bin/autossh -N -M 10984  -o "StrictHostKeyChecking=no" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -i /home/pi/autossh_id_rsa -R XXXX:localhost:22 autossh@XXX.XXX.com
+    RestartSec=3
+    StartLimitBurst=5
+    StartLimitIntervalSec=0
+    [Install]
+    WantedBy=multi-user.target
+  permissions: '0600'
+
+- path: /home/pi/autossh_id_rsa
+  # TODO - POPULATE WITH PRIVATE SSH KEY
+  content: |
+  owner: 'pi:pi'
+  permissions: '0600'
+  defer: true
+- path: /home/pi/.env
+  # TODO - POPULATE WITH NEFARIOUS SETTINGS ENV FILE
+  content: |
+  owner: 'pi:pi'
+  permissions: '0600'
+  defer: true
+
+# these will be ran once on first boot only
 runcmd:
-  # Pickup the hostname changes
-  - 'systemctl restart avahi-daemon'
+  - 'systemctl enable --now autossh'
+  - 'systemctl daemon-reload'
+  - 'git -C /home/pi clone https://github.com/flackdl/rpi-pirate.git'
+  - 'mv /home/pi/.env /home/pi/rpi-pirate'
+  - 'chown -R pi:pi /home/pi/rpi-pirate'
+  - 'su -c "cd /home/pi/rpi-pirate; docker-compose up -d" pi'
