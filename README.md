@@ -31,7 +31,7 @@ Inside the instance:
 Add something like this to `/etc/fstab`:
 
 	# external hd
-	LABEL=blackhole /media/pi/blackhole   ext4    nofail,x-systemd.device-timeout=1ms          0       2
+	LABEL=blackhole /media/pi/blackhole   ext4    nofail,x-systemd.device-timeout=60ms          0       2
 
 ## Run
 
