@@ -33,6 +33,9 @@ Add something like this to `/etc/fstab`:
 	# external hd
 	LABEL=blackhole /media/pi/blackhole   ext4    nofail,x-systemd.device-timeout=60s          0       2
 
+## Plex
+You can optionally populate a [claim](https://www.plex.tv/claim/) code in the env variables for automatic configuration.
+
 ## Run
 
 All docker containers will already be running on boot.
