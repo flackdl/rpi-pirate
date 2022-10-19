@@ -37,7 +37,7 @@ write_files:
     Type=simple
     User=pi
     Restart=always
-    ExecStart=/usr/bin/autossh -N -M 10984  -o "StrictHostKeyChecking=no" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -i /home/pi/autossh_id_rsa -R XXXX:localhost:22 autossh@XXX.XXX.com
+    ExecStart=/usr/bin/autossh -N -M 0  -o "StrictHostKeyChecking=no" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -i /home/pi/autossh_id_rsa -R XXXX:localhost:22 autossh@XXX.XXX.com
     RestartSec=3
     StartLimitBurst=5
     StartLimitIntervalSec=0
