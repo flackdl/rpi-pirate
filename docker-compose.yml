@@ -16,7 +16,7 @@ services:
       - 8.8.4.4
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${HOST_DOWNLOAD_PATH}:/data
+      - ${HOST_DOWNLOAD_PATH}:/config
     env_file:
       - .env
     environment:
