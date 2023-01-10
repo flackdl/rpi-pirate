@@ -5,7 +5,6 @@ RPI Docker Compose stack including the following:
 - [jackett](https://github.com/Jackett/Jackett)
 - [samba](https://github.com/dperson/samba)
 - [plex](https://docs.linuxserver.io/images/docker-plex)
-- [pihole](https://github.com/pi-hole/pi-hole)
 	
 The base RPI image is [Ubuntu Server](https://ubuntu.com/download/raspberry-pi), specifically for the [raspberry pi 32-bit](https://ubuntu.com/download/raspberry-pi/thank-you?version=22.04&architecture=server-armhf+raspi).
 
@@ -39,11 +38,3 @@ You can optionally populate a [claim](https://www.plex.tv/claim/) code in the en
 ## Run
 
 All docker containers will already be running on boot.
-
-
-## Pihole
-
-It's necessary to disable the existing dns server to run pihole:
-
-    sudo systemctl stop systemd-resolved
-    sudo systemctl disable systemd-resolved
