@@ -29,23 +29,6 @@ services:
       options:
         max-size: 1m
 
-  proxy:
-    image: haugene/transmission-openvpn-proxy
-    restart: always
-    depends_on:
-      - transmission
-    links:
-      - transmission
-    ports:
-      - "8080:8080"
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-    logging:
-      options:
-        max-size: 1m
-    env_file:
-      - .env
-
   jackett:
     image: linuxserver/jackett
     restart: always
