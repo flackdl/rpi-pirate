@@ -6,7 +6,7 @@ RPI Docker Compose stack including the following:
 - [samba](https://github.com/dperson/samba)
 - [plex](https://docs.linuxserver.io/images/docker-plex)
 	
-The base RPI image is [Ubuntu Server](https://ubuntu.com/download/raspberry-pi), specifically for the [raspberry pi 32-bit](https://ubuntu.com/download/raspberry-pi/thank-you?version=22.04&architecture=server-armhf+raspi).
+The base RPI image is [Ubuntu Server](https://ubuntu.com/download/raspberry-pi), specifically for the [raspberry pi 64-bit](https://ubuntu.com/download/raspberry-pi/thank-you?version=22.04.3&architecture=server-arm64+raspi).
 
 Download the [flash](https://github.com/hypriot/flash) tool to write the image.  Include *user-data* and a *network-config* to configure things like users and a static ip address.
 
