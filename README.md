@@ -12,7 +12,7 @@ Download the [flash](https://github.com/hypriot/flash) tool to write the image. 
 
 Something like:
  
-    flash --userdata user-data.yml --file network-config https://cdimage.ubuntu.com/releases/22.04/release/ubuntu-22.04-preinstalled-server-armhf+raspi.img.xz
+    flash --userdata user-data.yml --file network-config https://cdimage.ubuntu.com/releases/22.04.3/release/ubuntu-22.04.3-preinstalled-server-arm64+raspi.img.xz
 
 ## Debugging with LXC and cloud-init
 
