@@ -16,7 +16,7 @@ Extract image:
 
 Create multiple loop devices for each partition of the image/iso:
 
-    sudo partx -a -v ~/Desktop/ubuntu-22.04.3-preinstalled-server-arm64+raspi.img
+    sudo partx -a -v ~/Downloads/ubuntu-22.04.3-preinstalled-server-arm64+raspi.img
 
 > /dev/loop23: partition #1 added
 
@@ -33,7 +33,7 @@ Copy cloud-init configs to /boot partition:
 
 Unmount:
 
-    umount /mnt/rpi
+    sudo umount /mnt/rpi
 
 Write sd card:
 
