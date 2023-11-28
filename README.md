@@ -1,29 +1,47 @@
-RPI Docker Compose stack including the following:
+RPI Docker-Compose stack including the following:
 
 - [transmission / openvpn](https://github.com/haugene/docker-transmission-openvpn)
 - [nefarious](https://github.com/lardbit/nefarious)
 - [jackett](https://github.com/Jackett/Jackett)
 - [samba](https://github.com/dperson/samba)
-- [plex](https://docs.linuxserver.io/images/docker-plex)
+- [plex](https://docs.linuxserver.io/images/docker-plex) (opt-in)
 	
 The base RPI image is [Ubuntu Server](https://ubuntu.com/download/raspberry-pi), specifically for the [raspberry pi 64-bit](https://ubuntu.com/download/raspberry-pi/thank-you?version=22.04.3&architecture=server-arm64+raspi).
 
-Download the [flash](https://github.com/hypriot/flash) tool to write the image.  Include *user-data* and a *network-config* to configure things like users and a static ip address.
+## Customize
 
-Something like:
- 
-    flash --userdata user-data.yml --file network-config https://cdimage.ubuntu.com/releases/22.04.3/release/ubuntu-22.04.3-preinstalled-server-arm64+raspi.img.xz
+Extract image:
 
-## Debugging with LXC and cloud-init
+    xz -d ~/Downloads/ubuntu-22.04.3-preinstalled-server-arm64+raspi.img.xz 
 
-	sudo lxc launch ubuntu:focal rpi --config=user.user-data="$(cat user-data.yml)"
-	sudo lxc shell rpi
+Create multiple loop devices for each partition of the image/iso:
 
-Inside the instance:
+    sudo partx -a -v ~/Desktop/ubuntu-22.04.3-preinstalled-server-arm64+raspi.img
 
-	cloud-init status --wait
+> /dev/loop23: partition #1 added
+
+> /dev/loop23: partition #2 added
+
+Mount the /boot partition:
+
+    sudo mount /dev/loop23p1 /mnt/rpi
+
+Copy cloud-init configs to /boot partition:
+
+    sudo cp network-config /mnt/rpi/
+    sudo cp user-data.yml /mnt/rpi/user-data
+
+Unmount:
+
+    umount /mnt/rpi
+
+Write sd card:
+
+    sudo dd if=~/Downloads/ubuntu-22.04.3-preinstalled-server-arm64+raspi.img of=/dev/mmcblk0 status=progress bs=4M
 
 # Further Configuration
+
+SSH into device to manually configure other items.
 
 ## External Hard Drive
 

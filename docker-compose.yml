@@ -145,27 +145,27 @@ services:
       options:
         max-size: 10m
 
-  plex:
-    image: lscr.io/linuxserver/plex
-    network_mode: host
-    restart: unless-stopped
-    labels:
-      # auto update
-      com.centurylinklabs.watchtower.enable: true
-    volumes:
-      - plex-config:/config
-      - ${HOST_DOWNLOAD_PATH}:/data
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - VERSION=docker
-      - PLEX_CLAIM=#optional
-    logging:
-      options:
-        max-size: 10m
+  #plex:
+  #  image: lscr.io/linuxserver/plex
+  #  network_mode: host
+  #  restart: unless-stopped
+  #  labels:
+  #    # auto update
+  #    com.centurylinklabs.watchtower.enable: true
+  #  volumes:
+  #    - plex-config:/config
+  #    - ${HOST_DOWNLOAD_PATH}:/data
+  #  environment:
+  #    - PUID=1000
+  #    - PGID=1000
+  #    - VERSION=docker
+  #    - PLEX_CLAIM=#optional
+  #  logging:
+  #    options:
+  #      max-size: 10m
 
 volumes:
   nefarious-db:
   jackett-config:
   transmission-db:
-  plex-config:
+  #plex-config:

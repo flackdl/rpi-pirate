@@ -2,8 +2,14 @@
 
 hostname: rpi
 manage_etc_hosts: true
-# allow password authentication
-ssh_pwauth: true
+ssh_pwauth: true  # allow password authentication
+chpasswd:
+  expire: false
+
+growpart:  # https://cloudinit.readthedocs.io/en/19.2/topics/examples.html#grow-partitions
+  mode: auto
+  devices: ['/']
+  ignore_growroot_disabled: false  
 
 users:
   - name: pi
@@ -11,11 +17,8 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     groups: users,docker,video
-    # TODO - REPLACE
     plain_text_passwd: cookie123
     lock_passwd: false
-    chpasswd:
-      expire: false
 
 #package_update: true
 #package_upgrade: true
@@ -28,8 +31,8 @@ packages:
 write_files:
 
 - path: /etc/systemd/system/autossh.service
-  # TODO - REPLACE PORT AND DOMAIN
   content: |
+  # TODO - populate domain and port
     [Unit]
     Description=Autossh rpi
     After=network.target
@@ -37,7 +40,7 @@ write_files:
     Type=simple
     User=pi
     Restart=always
-    ExecStart=/usr/bin/autossh -N -M 0  -o "StrictHostKeyChecking=no" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -i /home/pi/autossh_id_rsa -R XXXX:localhost:22 autossh@XXX.XXX.com
+    ExecStart=/usr/bin/autossh -N -M 0  -o "StrictHostKeyChecking=no" -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -i /home/pi/autossh_id_rsa -R XXX:localhost:22 autossh@XXX.XXX.com
     RestartSec=3
     StartLimitBurst=5
     StartLimitIntervalSec=0
@@ -46,13 +49,13 @@ write_files:
   permissions: '0600'
 
 - path: /home/pi/autossh_id_rsa
-  # TODO - POPULATE WITH PRIVATE SSH KEY
   content: |
+  # TODO - populate private ssh key (KEEP indentation!)
   owner: 'pi:pi'
   permissions: '0600'
   defer: true
 - path: /home/pi/.env
-  # TODO - POPULATE WITH NEFARIOUS SETTINGS ENV FILE
+  # TODO - populate nefarious .env (KEEP indentation!)
   content: |
   owner: 'pi:pi'
   permissions: '0600'
