@@ -6,11 +6,6 @@ ssh_pwauth: true  # allow password authentication
 chpasswd:
   expire: false
 
-growpart:  # https://cloudinit.readthedocs.io/en/19.2/topics/examples.html#grow-partitions
-  mode: auto
-  devices: ['/']
-  ignore_growroot_disabled: false  
-
 users:
   - name: pi
     gecos: "rpi"
