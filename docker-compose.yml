@@ -94,23 +94,41 @@ services:
       options:
         max-size: 10m
 
-  celery:
+  celery-base:
     labels:
       # auto update
       - com.centurylinklabs.watchtower.enable=true
     image: lardbit/nefarious
     restart: always
-    entrypoint: /env/bin/celery -A nefarious worker --concurrency ${NUM_CELERY_WORKERS:-0} --beat --loglevel=INFO
+    volumes:
+      # persistent named volume for sqlite database
+      - nefarious-db:/nefarious-db
+      - ${HOST_DOWNLOAD_PATH}:/downloads
+
+  celery:
+    extends:
+      service: celery-base
+    entrypoint: /env/bin/celery -A nefarious worker --concurrency ${NUM_CELERY_WORKERS:-0} --loglevel=INFO
     environment:
       # https://github.com/kennethreitz/dj-database-url
       DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
       REDIS_HOST: "redis"
       HOST_DOWNLOAD_PATH: ${HOST_DOWNLOAD_PATH:-/tmp}
       INTERNAL_DOWNLOAD_PATH: /downloads/completed
-    volumes:
-      # persistent named volume for sqlite database
-      - nefarious-db:/nefarious-db
-      - ${HOST_DOWNLOAD_PATH}:/downloads
+      CELERY_BEAT_SEPARATELY: 1  # run worker and scheduler separately
+
+  celery-scheduler:
+    extends:
+      service: celery-base
+    entrypoint: /env/bin/celery -A nefarious beat --loglevel=INFO
+    environment:
+      # https://github.com/kennethreitz/dj-database-url
+      DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
+      REDIS_HOST: "redis"
+      HOST_DOWNLOAD_PATH: ${HOST_DOWNLOAD_PATH:-/tmp}
+      INTERNAL_DOWNLOAD_PATH: /downloads/completed
+      CELERY_BEAT: 1  # run celery as scheduler
+      CELERY_BEAT_SEPARATELY: 1  # run worker and scheduler separately
 
     depends_on:
       - redis
