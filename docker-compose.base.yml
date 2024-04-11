@@ -1,0 +1,14 @@
+version: '2.4'
+
+services:
+
+  celery-base:
+    labels:
+      # auto update
+      - com.centurylinklabs.watchtower.enable=true
+    image: lardbit/nefarious
+    restart: always
+    volumes:
+      # persistent named volume for sqlite database
+      - nefarious-db:/nefarious-db
+      - ${HOST_DOWNLOAD_PATH}:/downloads
