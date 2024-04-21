@@ -42,7 +42,7 @@ services:
       - jackett-config:/config
     logging:
       options:
-        max-size: 10m
+        max-size: 1m
 
   samba:
     image: dperson/samba:armhf
@@ -92,7 +92,7 @@ services:
       - celery
     logging:
       options:
-        max-size: 10m
+        max-size: 1m
 
   celery:
     extends:
@@ -125,7 +125,7 @@ services:
       - redis
     logging:
       options:
-        max-size: 10m
+        max-size: 1m
 
   redis:
     image: redis
@@ -152,7 +152,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     logging:
       options:
-        max-size: 10m
+        max-size: 1m
 
   #plex:
   #  image: lscr.io/linuxserver/plex
@@ -171,7 +171,7 @@ services:
   #    - PLEX_CLAIM=#optional
   #  logging:
   #    options:
-  #      max-size: 10m
+  #      max-size: 1m
 
 volumes:
   nefarious-db:
