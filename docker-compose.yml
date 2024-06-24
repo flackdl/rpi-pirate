@@ -123,14 +123,14 @@ services:
 
     depends_on:
       - redis
-    logging:
-      options:
-        max-size: 1m
 
   redis:
     image: redis
     restart: always
     mem_limit: 200m
+    logging:
+      options:
+        max-size: 1m
 
 
   # auto update service
@@ -143,6 +143,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - WATCHTOWER_POLL_INTERVAL=3600
+    logging:
+      options:
+        max-size: 1m
 
 
   deck-chores:

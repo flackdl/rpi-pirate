@@ -12,3 +12,6 @@ services:
       # persistent named volume for sqlite database
       - nefarious-db:/nefarious-db
       - ${HOST_DOWNLOAD_PATH}:/downloads
+    logging:
+      options:
+        max-size: 10m
