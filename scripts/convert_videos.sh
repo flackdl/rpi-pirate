@@ -18,7 +18,7 @@ for file in "$PATH_SOURCE"/**/*.{avi,mkv,m4a,m4v,mpg,mpeg,mp4}; do
   fi
   if [[ $codec_name = "av1" ]] || [[ $codec_name = "mpeg1video" ]] || [[ $codec_name = "mpeg2video" ]] || [[ $codec_name = "mpeg4" ]] || [[ $codec_name = "msmpeg4v3" ]]; then
     echo "converting from codec $codec_name to h265: $file"
-    ffmpeg -y -v quiet -stats -i "$file" -c:v libx265 -c:a aac "${file%.*}.mp4"
+    ffmpeg -y -v quiet -stats -i "$file" -c:v libx265 -x265-params log-level=quiet -c:a aac "${file%.*}.mp4"
     if [[ $? -eq 0 ]]; then
       rm "$file"
     fi
