@@ -111,7 +111,7 @@ services:
     extends:
       service: celery-base
       file: docker-compose.base.yml
-    entrypoint: /env/bin/celery -A nefarious beat --loglevel=INFO
+    entrypoint: /env/bin/celery -A nefarious beat --loglevel=INFO --pidfile=
     environment:
       # https://github.com/kennethreitz/dj-database-url
       DATABASE_URL: "sqlite:////nefarious-db/db.sqlite3"
